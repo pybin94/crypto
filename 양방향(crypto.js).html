@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @charset "utf-8";
+        *{-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
+        html, body{margin: 0; padding: 0; background-color: #262626;}
+        header, section, article, aside, nav, main, footer{display: block;}
+        header:after, section:after, article:after, aside:after, nav:after, main:after, footer:after{content:""; display: block; clear: both;}
+        h1, h2, h3, h4, h5, h6, p{margin: 0;}
+        ul, ol{margin: 0; padding: 0; list-style: none;}
+        a{text-decoration: none;}
+        .clear{clear: both;}
+        .wrap { width: 480px; margin: 200px auto 0;}
+        .flex {display: flex; align-items: center;}
+        .container {
+            padding: 15px 25px;
+            background-color: #fff;
+            border: 1px solid #b10000 ;
+        }
+        h3{
+            color: #2e0262;
+        }
+        p{
+            font-size: 12px;
+            padding: 5px 0;
+        }
+        p:last-child{
+            padding: 0;
+        }
+        hr {
+            background-color: #d9dadc;
+            border: none;
+            height: 1px;
+        }
+        .left-side {
+            width: 30%;
+        }
+        .circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50px;
+            background-color: #f2f3f4;
+            position: relative;
+        }
+        img{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .fa-lock {
+            width: 10px;
+            height: 10px;
+        }
+        .right-side {
+            width: 70%;
+        }
+        input {
+            padding: 8px 10px;
+            width: 245px;
+        }
+        input:focus {
+            outline: none;
+        }
+        input,
+        button {
+            border: 1px solid #b10000;
+        }
+        button {
+            background-color: #b10000;
+            color: #fff;
+            padding: 7px 10px;
+            margin-left: 5px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap container">
+        <h3>보안메일 비밀번호 인증창</h3>
+        <i class="fas fa-lock"></i>
+            <hr>
+        <div class="flex">
+            <div class="left-side">
+                <div class="circle">
+                    <i class="fas fa-lock"></i>
+                    <img src="https://i.ibb.co/qDfZ6Dz/lock.png" alt="">
+                </div>
+            </div>
+            <div class="right-side">
+                <h3>이 메일은 암호화된 메일입니다</h3>
+                <p>아래의 내용을 입력 후 확인해 주시기 바랍니다</p>
+                <div class="password flex">
+                    <input id="plainText" type="password" required placeholder="패스워드를 입력하세요" onkeyup="if(window.event.keyCode==13){callEnDecodeFunc()}" value="7078101787"/>
+                    <button onClick="callEnDecodeFunc()">확인</button>
+                </div>
+                <p>개인 : 주민등록번호 13자리</p>
+                <p>사업자 : 사업자등록번호 10자리</p>
+            </div>
+        </div>
+    </div>
+  
+</body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+    <script>
+        function callEnDecodeFunc(){
+            const plaintext = document.getElementById('plainText').value;
+            
+            const encoded = encoding(plaintext);
+            const decoded = decoding(encoded);
+            
+            // console.log(encoded)
+
+            const input = document.querySelector("input").value
+            if ("NzA3ODEwMTc4Nw==" == encoded){
+                location.href ='http://www.naver.com'; // 이동할 웹페이지 지정 - 현재창에서 이동
+            }else{
+                alert("비밀번호가 틀렸습니다.")
+            } 
+        }
+
+        function encoding(plaintext){
+            //encrypt
+            const wordArray = CryptoJS.enc.Utf8.parse(plaintext);
+            const encoded = CryptoJS.enc.Base64.stringify(wordArray);
+            return encoded;
+        }
+
+        function decoding(encoded){
+            //decrypt
+            const parsedWordArray = CryptoJS.enc.Base64.parse(encoded);
+            const decoded = parsedWordArray.toString(CryptoJS.enc.Utf8);
+            return decoded;
+        }
+    </script>
+</html>
