@@ -7,63 +7,7 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Document</title>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
             <style>
-                @charset "utf-8";
-                *{-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
-                html, body{margin: 0; padding: 0;}
-                header, section, article, aside, nav, main, footer{display: block;}
-                header:after, section:after, article:after, aside:after, nav:after, main:after, footer:after{content:""; display: block; clear: both;}
-                h1, h2, h3, h4, h5, h6, p{margin: 0;}
-                ul, ol{margin: 0; padding: 0; list-style: none;}
-                a{text-decoration: none;}
-                .clear{clear: both;}
-                .wrap { width: 480px; margin: 200px auto 0;}
-                .flex {display: flex; align-items: center;}
-                body { background-color: #262626;}
-                .container {
-                    padding: 15px 25px;
-                    background-color: #fff;
-                    border: 1px solid #b10000 ;
-                }
-                h3{
-                    color: #2e0262;
-                }
-                p{
-                    font-size: 12px;
-                    padding: 5px 0;
-                }
-                p:last-child{
-                    padding: 0;
-                }
-                hr {
-                    background-color: #d9dadc;
-                    border: none;
-                    height: 1px;
-                }
-                .left-side {
-                    width: 30%;
-                }
-                .circle {
-                    width: 100px;
-                    height: 100px;
-                    border-radius: 50px;
-                    background-color: #f2f3f4;
-                    position: relative;
-                }
-                img{
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                }
-                .fa-lock {
-                    width: 10px;
-                    height: 10px;
-                }
-                .right-side {
-                    width: 70%;
-                }
                 input {
                     padding: 8px 10px;
                     width: 245px;
@@ -81,43 +25,13 @@
                     padding: 7px 10px;
                     margin-left: 5px; 
                 }
-                .crypto-page {
-                    display: none;
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                }
             </style>
         </head>
         <body>
-            <div class="wrap container">
-                <h3>보안메일 비밀번호 인증창</h3>
-                <i class="fas fa-lock"></i>
-                    <hr>
-                <div class="flex">
-                    <div class="left-side">
-                        <div class="circle">
-                            <i class="fas fa-lock"></i>
-                            <img src="https://i.ibb.co/qDfZ6Dz/lock.png" alt="">
-                        </div>
-                    </div>
-                    <div class="right-side">
-                        <h3>이 메일은 암호화된 메일입니다</h3>
-                        <p>아래의 내용을 입력 후 확인해 주시기 바랍니다</p>
-                        <div class="password flex">
-                            <input id="inputText" type="text" required placeholder="패스워드를 입력하세요" onkeyup="if(window.event.keyCode==13){}" value="7078101787"/>
-                            <button  id="sha256Button" onclick="">확인</button>
-                        </div>
-                        <p>개인 : 주민등록번호 13자리</p>
-                        <p>사업자 : 사업자등록번호 10자리</p>
-                    </div>
-                </div>
-            </div>
-            <div class="crypto-page">
-                반갑습니다.
-            </div>
-		<div>결과 : <span id="resultText"></span></div>
+        <input id="inputText" type="text" required onkeyup="if(window.event.keyCode==13){encord()}"/>
+        <button  id="sha256Button" onclick="encord()">확인</button>
+                  
+		<div>encode : <span id="resultText"></span></div>
 
 		<script>
 			function sha256(str) {
@@ -139,22 +53,13 @@
 				return hexCodes.join("");
 			}
 
-			$(document).ready(function(){
-				$("#sha256Button").click(function(){
-					sha256($("#inputText").val()).then(function(digest) {
-						$("#resultText").text(digest);
-                        if(digest == "f7609bb71858137d323db763724cd7e472f53cf407a5acc178ec3a1843e0e32c"){
-                            document.querySelector(".container").style.display = "none";
-                            document.querySelector("body").style.backgroundColor = "#fff";
-                            document.querySelector(".crypto-page").style.display = "block";
-                        }else{
-                            alert("비밀번호가 틀렸습니다.")
-                        }
-					});
-				});
-			});
+            function encord(){
+                sha256(document.querySelector("#inputText").value).then(function(digest) {
+                    document.querySelector("#resultText").innerHTML = digest;
 
-            
+				}); 
+            }
+  
 		</script>
 
 	</body>
